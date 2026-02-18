@@ -65,13 +65,14 @@ public abstract class Event {
 
         // Cancel all confirmed bookings
         for (Booking b : confirmedBookings) {
-            b.setStatus("Cancelled");
+            b.setStatus(EventStatus.CANCELLED);
         }
 
         for (Booking b : waitlist) {
-            b.setStatus("Cancelled");
+            b.setStatus(EventStatus.CANCELLED);
         }
 
+        confirmedBookings.clear()
         waitlist.clear();
     }
 
