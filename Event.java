@@ -11,7 +11,7 @@ public abstract class Event {
     private LocalDateTime dateTime;
     private String location;
     private int capacity;
-    private EventStatus status; // "Active" or "Cancelled"
+    private EventStatus status; // ACTIVE or CANCELLED
 
     protected List<Booking> confirmedBookings;
     protected Queue<Booking> waitlist;
@@ -56,8 +56,43 @@ public abstract class Event {
         return capacity;
     }
 
-    public String getStatus() {
+    public EventStatus getStatus() {
         return status;
+    }
+
+    //----------------------------------------------------------------------------
+    // Setters
+    //----------------------------------------------------------------------------
+
+    public void setTitle(String title) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Title cannot be empty.");
+        }
+        this.title = title;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        if (dateTime == null || dateTime.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Date and Time must be in the future.");
+        }
+        this.dateTime = dateTime;
+    }
+
+    public void setLocation(String location) {
+        if (location == null || location.isBlank()) {
+            throw new IllegalArgumentException("Location cannot be empty.");
+        }
+        this.location = location;
+    }
+
+    public void setCapacity(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be greater than zero");
+        }
+        if (capacity < confirmedBookings.size()) {
+            throw new IllegalArgumentException("Capacity cannot be less than current confirmed bookings.");
+        }
+        this.capacity = capacity;
     }
 
     public void cancelEvent() {
@@ -65,14 +100,14 @@ public abstract class Event {
 
         // Cancel all confirmed bookings
         for (Booking b : confirmedBookings) {
-            b.setStatus(EventStatus.CANCELLED);
+            b.setStatus("Cancelled");
         }
 
         for (Booking b : waitlist) {
-            b.setStatus(EventStatus.CANCELLED);
+            b.setStatus("Cancelled");
         }
 
-        confirmedBookings.clear()
+        confirmedBookings.clear();
         waitlist.clear();
     }
 
@@ -121,5 +156,23 @@ public abstract class Event {
 
     public List<Booking> getWaitlist() {
         return new ArrayList<>(waitlist);
+    }
+
+    public List<Booking> getConfirmedBookings() {
+        return new ArrayList<>(confirmedBookings);
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "eventId='" + eventId + '\'' +
+                ", title='" + title + '\'' +
+                ", dateTime=" + dateTime +
+                ", location='" + location + '\'' +
+                ", capacity=" + capacity +
+                ", status=" + status +
+                ", confirmedBookings=" + confirmedBookings.size() +
+                ", waitlist=" + waitlist.size() +
+                '}';
     }
 }
