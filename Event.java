@@ -11,7 +11,7 @@ public abstract class Event {
     private LocalDateTime dateTime;
     private String location;
     private int capacity;
-    private String status; // "Active" or "Cancelled"
+    private EventStatus status; // "Active" or "Cancelled"
 
     protected List<Booking> confirmedBookings;
     protected Queue<Booking> waitlist;
@@ -26,7 +26,7 @@ public abstract class Event {
         this.dateTime = dateTime;
         this.location = location;
         this.capacity = capacity;
-        this.status = "Active";
+        this.status = EventStatus.ACTIVE;
 
         this.confirmedBookings = new ArrayList<>();
         this.waitlist = new LinkedList<>();
@@ -61,7 +61,7 @@ public abstract class Event {
     }
 
     public void cancelEvent() {
-        this.status = "Cancelled";
+        this.status = EventStatus.CANCELLED;
 
         // Cancel all confirmed bookings
         for (Booking b : confirmedBookings) {
@@ -76,7 +76,7 @@ public abstract class Event {
     }
 
     public boolean isActive() {
-        return status.equals("Active");
+        return status == EventStatus.ACTIVE;
     }
 
     //---------------------------------------------------------------------------
