@@ -1,5 +1,3 @@
-package controllers;
-
 import javafx.scene.control.Alert;
 import models.*;
 import views.BookingView;
