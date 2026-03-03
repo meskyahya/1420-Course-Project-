@@ -1,6 +1,4 @@
 import javafx.scene.control.Alert;
-import models.*;
-import views.BookingView;
 
 import java.util.ArrayList;
 import java.util.List;

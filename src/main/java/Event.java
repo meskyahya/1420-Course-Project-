@@ -60,6 +60,10 @@ public abstract class Event {
         return status;
     }
 
+public void setStatus(EventStatus status) {
+    this.status = status;
+}
+
     //----------------------------------------------------------------------------
     // Setters
     //----------------------------------------------------------------------------
