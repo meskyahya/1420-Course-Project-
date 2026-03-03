@@ -8,10 +8,6 @@ import javafx.scene.text.FontWeight;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * BookingView - matches EventView pattern exactly.
- * Provides UI for BookingController (user/event dropdowns, buttons, bookings list).
- */
 public class BookingView extends VBox {
 
     private ComboBox<String> userCombo;
