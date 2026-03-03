@@ -1,179 +1,151 @@
-package controllers;
-
-// importing your user models
-import models.User;
-import models.Student;
-import models.Staff;
-import models.Guest;
-
-// importing javafx files to create a GUI
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.geometry.Insets;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import java.util.ArrayList;
 
-// Creating a class called UserController
-// removed extends Application because MainApp launches JavaFX
 public class UserController {
 
-    // Creating an array list called users to store all the user objects like student, staff and guest and
-    // an array list is used here as the size of the array can be increased or decreased
-    ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<User> users = new ArrayList<User>();
+    private VBox view;
+    private TextField idField;
+    private TextField nameField;
+    private TextField emailField;
+    private ComboBox<String> typeBox;
+    private ListView<String> listView;
+    private Label statusLabel;
 
-    // root pane to return to MainApp tab
-    private VBox root;
+    public UserController() {
+        buildUI();
+    }
 
-    // ListView to display the Id, name, email and role
-    ListView<String> listview;
+    private void buildUI() {
+        view = new VBox(10);
+        view.setPadding(new Insets(20));
 
-    // Method to build UI and return root VBox
-    public VBox getView() {
+        Label title = new Label("User Management");
+        title.setFont(Font.font("System", FontWeight.BOLD, 20));
 
-        // Creating the input fields, these will create the boxes for the user to enter their details.
-        // Box for the ID
-        TextField idfield = new TextField();
-        // Box for the name
-        TextField namefield = new TextField();
-        // Box for the email
-        TextField emailfield = new TextField();
+        idField = new TextField();
+        idField.setPromptText("Enter user ID (number)");
+        nameField = new TextField();
+        nameField.setPromptText("Enter name");
+        emailField = new TextField();
+        emailField.setPromptText("Enter email");
 
-        // Creating a ComboBox where the user can choose between student, staff and guest.
-        // the add function adds the Student, Staff and Guest to the boxes where the user can choose one
-        ComboBox<String> typeBox = new ComboBox<String>();
+        typeBox = new ComboBox<String>();
         typeBox.getItems().add("Student");
         typeBox.getItems().add("Staff");
         typeBox.getItems().add("Guest");
+        typeBox.setPromptText("Select role...");
 
-        // creating a clickable button and the addbutton will add users and the view button lets you view the users
-        Button addbutton = new Button("Add an User");
-        Button viewbutton = new Button("View an Users");
-
-        // Creating a list to view the Id, name , email and their role(staff, student, guest).
-        listview = new ListView<String>();
-
-        // Creating the layout
-        // GridPane is used to create a grid to place the elements in rows and cols
         GridPane form = new GridPane();
-        // the horizontal space is 10 pixel
         form.setHgap(10);
-        // the vertical spacing is 10 pixel
         form.setVgap(10);
-        // creating spaces around the layouts of the grid
         form.setPadding(new Insets(10));
-
-        // form.add adds the elements on to the grid
-        // row 0 is for the ID
         form.add(new Label("User ID:"), 0, 0);
-        form.add(idfield, 1, 0);
-        // row 1 is for the name
+        form.add(idField, 1, 0);
         form.add(new Label("Name:"), 0, 1);
-        form.add(namefield, 1, 1);
-        // row 2 is for the email
+        form.add(nameField, 1, 1);
         form.add(new Label("Email:"), 0, 2);
-        form.add(emailfield, 1, 2);
-        // row 3 is for the roles
+        form.add(emailField, 1, 2);
         form.add(new Label("Role:"), 0, 3);
         form.add(typeBox, 1, 3);
 
-        // The HBox adds the elements horizontally
-        HBox buttons = new HBox(10, addbutton, viewbutton);
+        Button addButton = new Button("Add User");
+        Button viewButton = new Button("View All Users");
+        HBox buttons = new HBox(10, addButton, viewButton);
         form.add(buttons, 0, 4, 2, 1);
 
-        // The VBox adds the elements vertically
-        root = new VBox(10, form, listview);
-        // setPadding is for the spaces near the edges
-        root.setPadding(new Insets(10));
+        listView = new ListView<String>();
+        listView.setPrefHeight(200);
 
-        // the setOnAction defines what will happen after the button is clicked
-        addbutton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
+        statusLabel = new Label("Fill in details and click Add User.");
+        statusLabel.setStyle("-fx-text-fill: grey;");
 
-                // Reads what the user had entered and the getText reads from TextField and getValue reads from ComboBox
-                String idText = idfield.getText();
-                String name = namefield.getText();
-                String email = emailfield.getText();
-                String type = typeBox.getValue();
+        view.getChildren().addAll(title, form, new Label("Registered Users:"), listView, statusLabel);
 
-                // checks if the user have entered all the details and if it's true then
-                // an error message is printed
-                if (idText.isEmpty() || name.isEmpty() || email.isEmpty() || type == null) {
-                    showAlert("Please fill in all your details");
-                    return;
-                }
-
-                // Converts the text to numbers
-                int id = Integer.parseInt(idText);
-
-                // checking if the given ID already exists and if it did then an error message is printed
-                for (int i = 0; i < users.size(); i++) {
-                    if (users.get(i).getId() == id) {
-                        showAlert("Please Enter a valid ID this already exists");
-                        return;
-                    }
-                }
-
-                // creating a new user object based on the role the user selects
-                User user;
-                // student
-                if (type.equals("Student")) {
-                    user = new Student(id, name, email);
-                }
-                // staff
-                else if (type.equals("Staff")) {
-                    user = new Staff(id, name, email);
-                }
-                // guest
-                else {
-                    user = new Guest(id, name, email);
-                }
-
-                // adding the user to the user list and then displaying them
-                users.add(user);
-                listview.getItems().add(user.toString());
-
-                // cleans the input boxes so the user can enter multiple times
-                idfield.clear();
-                namefield.clear();
-                emailfield.clear();
-                typeBox.getSelectionModel().clearSelection();
-            }
-
-        });
-
-        // the viewbutton defines what happens when it's clicked
-        viewbutton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-
-                // clearing the list to ensure there is no duplicates
-                listview.getItems().clear();
-
-                // using the for loop to add on all the user details
-                for (int i = 0; i < users.size(); i++) {
-                    User u = users.get(i);
-
-                    listview.getItems().add(
-                            "ID: " + u.getId() +
-                                    " Name: " + u.getName() +
-                                    " Email: " + u.getEmail() +
-                                    " Role: " + u.getRole()
-                    );
-                }
-
-            }
-        });
-
-        // return the root VBox so MainApp can add it to a tab
-        return root;
+        addButton.setOnAction(e -> handleAddUser());
+        viewButton.setOnAction(e -> handleViewUsers());
     }
 
-    // creating an alert message and the message will be displayed till the user closes it
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void handleAddUser() {
+        String idText = idField.getText().trim();
+        String name = nameField.getText().trim();
+        String email = emailField.getText().trim();
+        String type = typeBox.getValue();
+
+        if (idText.isEmpty() || name.isEmpty() || email.isEmpty() || type == null) {
+            statusLabel.setText("Please fill in all fields.");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        int id;
+        try {
+            id = Integer.parseInt(idText);
+        } catch (NumberFormatException ex) {
+            statusLabel.setText("User ID must be a number.");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getuserID() == id) {
+                statusLabel.setText("User ID already exists.");
+                statusLabel.setStyle("-fx-text-fill: red;");
+                return;
+            }
+        }
+
+        User user;
+        if (type.equals("Student")) {
+            user = new Student(name, email, id);
+        } else if (type.equals("Staff")) {
+            user = new Staff(name, email, id);
+        } else {
+            user = new Guest(name, email, id);
+        }
+
+        users.add(user);
+        listView.getItems().add(
+            "ID: " + user.getuserID() +
+            " | Name: " + user.getname() +
+            " | Email: " + user.getemail() +
+            " | Role: " + user.getrole()
+        );
+
+        idField.clear();
+        nameField.clear();
+        emailField.clear();
+        typeBox.getSelectionModel().clearSelection();
+        statusLabel.setText("User added successfully.");
+        statusLabel.setStyle("-fx-text-fill: green;");
     }
+
+    private void handleViewUsers() {
+        listView.getItems().clear();
+        if (users.size() == 0) {
+            statusLabel.setText("No users registered yet.");
+            statusLabel.setStyle("-fx-text-fill: grey;");
+            return;
+        }
+        for (int i = 0; i < users.size(); i++) {
+            User u = users.get(i);
+            listView.getItems().add(
+                "ID: " + u.getuserID() +
+                " | Name: " + u.getname() +
+                " | Email: " + u.getemail() +
+                " | Role: " + u.getrole()
+            );
+        }
+        statusLabel.setText("Showing " + users.size() + " user(s).");
+        statusLabel.setStyle("-fx-text-fill: grey;");
+    }
+
+    public ArrayList<User> getUsers() { 
+        return users; }
+    public VBox getView() { 
+        return view; }
 }
