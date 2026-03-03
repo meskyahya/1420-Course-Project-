@@ -6,10 +6,10 @@ A Java-based desktop application that can manage campus events, user registratio
 
 # Team Members and Responsibilities 
 
-User Management- Navina
-Waitlist Management- Mesk
-Booking Management- Wania, Aliza
-Event Management- Mathieu, Andrew
+User Management- Navina  
+Waitlist Management- Mesk  
+Booking Management- Wania, Aliza  
+Event Management- Mathieu, Andrew  
 
 # Requirements to Run:
 - JDK 21 or later (Project utilizes JDK 25)
@@ -31,9 +31,9 @@ Event Management- Mathieu, Andrew
        mvn javafx:run
 
 # Phase 1 Features:
-User Management: Add and view Student, Staff and Guest Users
-Event Management: Create, update, and cancel Workshop, Seminar, and Concert events. 
-Booking Management: Book events for users with confirmed/waitlisted status. 
-Waitlist Management: View and manage waitlists with automatic promotion when a confirmed booking is cancelled. 
+User Management: Add and view Student, Staff and Guest Users  
+Event Management: Create, update, and cancel Workshop, Seminar, and Concert events.  
+Booking Management: Book events for users with confirmed/waitlisted status.  
+Waitlist Management: View and manage waitlists with automatic promotion when a confirmed booking is cancelled.  
 
    

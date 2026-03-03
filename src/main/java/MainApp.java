@@ -21,9 +21,12 @@ public class MainApp extends Application {
         Tab userTab = new Tab("User Management");
         userTab.setContent(placeholder("User Management - Coming Soon"));
 
-        // Event Management tab (teammate fills in)
+       // Event Management tab (fully implemented)
+        EventManager eventManager = new EventManager();   // backend system
+        EventView eventView = new EventView();           // GUI
+        EventController eventController = new EventController(eventManager, eventView); // wires GUI and system
         Tab eventTab = new Tab("Event Management");
-        eventTab.setContent(placeholder("Event Management - Coming Soon"));
+        eventTab.setContent(eventView);               
 
         // Booking Management tab (teammate fills in)
         Tab bookingTab = new Tab("Booking Management");
