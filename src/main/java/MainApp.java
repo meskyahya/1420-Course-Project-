@@ -4,11 +4,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.List;
 
-//Launches a tabbed window with all four modules.
 public class MainApp extends Application {
 
     @Override
@@ -17,29 +15,34 @@ public class MainApp extends Application {
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        // User Management tab (teammate fills in)
+        // Shared backend
+        EventManager eventManager = new EventManager();
+        BookingManager bookingManager = new BookingManager();
+
+        // User Management tab
+        UserController userController = new UserController();
         Tab userTab = new Tab("User Management");
-        userTab.setContent(placeholder("User Management - Coming Soon"));
+        userTab.setContent(userController.getView());
 
-       // Event Management tab (fully implemented)
-        EventManager eventManager = new EventManager();   // backend system
-        EventView eventView = new EventView();           // GUI
-        EventController eventController = new EventController(eventManager, eventView); // wires GUI and system
+        // Event Management tab
+        EventController eventController = new EventController(eventManager);
         Tab eventTab = new Tab("Event Management");
-        eventTab.setContent(eventView);               
+        eventTab.setContent(eventController.getView());
 
-        // Booking Management tab (teammate fills in)
+        // Booking Management tab
+        BookingView bookingView = new BookingView();
+        BookingGUIController bookingController = new BookingGUIController(
+            bookingManager,
+            bookingView,
+            userController.getUsers(),
+            eventManager.getAllEvents()
+        );
         Tab bookingTab = new Tab("Booking Management");
-        bookingTab.setContent(placeholder("Booking Management - Coming Soon"));
+        bookingTab.setContent(bookingController.getView());
 
-        // Waitlist Management tab (fully implemented)
-        List<Event> events = new ArrayList<>();
-        // TODO: replace with real events from EventManager once integrated
-        // Example: events = eventManager.getAllEvents();
-
+        // Waitlist Management tab
         WaitlistController waitlistController = new WaitlistController();
-        waitlistController.setEvents(events);
-
+        waitlistController.setEvents(eventManager.getAllEvents());
         Tab waitlistTab = new Tab("Waitlist Management");
         waitlistTab.setContent(waitlistController.getView());
 
@@ -49,16 +52,6 @@ public class MainApp extends Application {
         primaryStage.setTitle("Campus Event Booking System");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    /** Simple placeholder for unfinished tabs. */
-    private StackPane placeholder(String message) {
-        StackPane pane = new StackPane();
-        Label label = new Label(message);
-        label.setFont(Font.font("System", 16));
-        label.setStyle("-fx-text-fill: grey;");
-        pane.getChildren().add(label);
-        return pane;
     }
 
     public static void main(String[] args) {
