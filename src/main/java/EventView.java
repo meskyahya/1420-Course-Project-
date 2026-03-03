@@ -1,5 +1,3 @@
-package views;
-
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import java.util.List;
