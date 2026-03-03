@@ -24,11 +24,11 @@ Event Management- Mathieu, Andrew
   4. Open MainApp.java and click the Run button.
 
 # ii) Terminal
-  1. Clone Repository
-    git clone https://github.com/yourusername/1420-Course-Project-.git
-   cd 1420-Course-Project-
-  3. Run Application
-mvn javafx:run
+  1. Clone Repository:
+       git clone https://github.com/yourusername/1420-Course-Project-.git
+       cd 1420-Course-Project-
+  3. Run Application:
+       mvn javafx:run
 
 # Phase 1 Features:
 User Management: Add and view Student, Staff and Guest Users
