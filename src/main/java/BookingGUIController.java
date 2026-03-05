@@ -165,4 +165,8 @@ public class BookingGUIController {
         alert.setContentText(message);
         alert.show();
     }
+
+    public BookingView getView() {
+        return view;
+    }
 }

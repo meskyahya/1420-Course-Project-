@@ -1,198 +1,149 @@
-package com.useraddition.usermanagement;
-// importing javafx files to create a GUI
-import javafx.application.Application;
-// used to create click button and
-import javafx.event.ActionEvent;
-// used to handle events
-import javafx .event.EventHandler;
-// used for the spacing of the layouts
 import javafx.geometry.Insets;
-// used for everything that happens in a window
-import javafx.scene.Scene;
-// imports all the inside this package like TextField
 import javafx.scene.control.*;
-// imports classes like vbox, gridpane
 import javafx.scene.layout.*;
-// it's the main window for the program
-import javafx.stage.Stage;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import java.util.ArrayList;
 
-// Creating a class called Usercontroller and extend application to let the program know it's a javafx program so
-// that it can open a window
+public class UserController {
 
-public class  UserController extends  Application {
+    private ArrayList<User> users = new ArrayList<User>();
+    private VBox view;
+    private TextField idField;
+    private TextField nameField;
+    private TextField emailField;
+    private ComboBox<String> typeBox;
+    private ListView<String> listView;
+    private Label statusLabel;
 
-    // Creating an array list called users to store all  the user objects like student, staff and guest and
-    // an array list is used here as the size of the array can be  increased or decreased
-    ArrayList< User> users = new ArrayList<User>();
+    public UserController() {
+        buildUI();
+    }
 
+    private void buildUI() {
+        view = new VBox(10);
+        view.setPadding(new Insets(20));
 
-    // start is a method in javafx which runs on its own when the program starts and Stage stage is the
-    // main window where everthing will appear.
-    public void start (Stage stage){
+        Label title = new Label("User Management");
+        title.setFont(Font.font("System", FontWeight.BOLD, 20));
 
-        // Creating the input fields, these will create the boxes for the user to enter thier details.
-        // Box for the ID
-        TextField idfield = new TextField();
-        // Box for the name
-        TextField namefield =  new TextField( );
-        // Box for the email
-        TextField emailfield = new TextField();
+        idField = new TextField();
+        idField.setPromptText("Enter user ID (number)");
+        nameField = new TextField();
+        nameField.setPromptText("Enter name");
+        emailField = new TextField();
+        emailField.setPromptText("Enter email");
 
-
-        // Creating a Combo box where the user can choose between student, staff and guest.
-        // the add funtion adds the Student, Staff and guest to the boxes where the user can choose one
-        ComboBox<String> typeBox = new ComboBox<String>();
-        typeBox. getItems().add("Student");
+        typeBox = new ComboBox<String>();
+        typeBox.getItems().add("Student");
         typeBox.getItems().add("Staff");
         typeBox.getItems().add("Guest");
+        typeBox.setPromptText("Select role...");
 
-        // creating a clickable button and the addbutton will add users and the view button lets you view the users
-        Button addbutton = new Button("Add an User");
-        Button viewbutton =  new Button("View an Users");
+        GridPane form = new GridPane();
+        form.setHgap(10);
+        form.setVgap(10);
+        form.setPadding(new Insets(10));
+        form.add(new Label("User ID:"), 0, 0);
+        form.add(idField, 1, 0);
+        form.add(new Label("Name:"), 0, 1);
+        form.add(nameField, 1, 1);
+        form.add(new Label("Email:"), 0, 2);
+        form.add(emailField, 1, 2);
+        form.add(new Label("Role:"), 0, 3);
+        form.add(typeBox, 1, 3);
 
-        // Creating a list to view the Id, name , email and thier role(staff, student, guest).
-        ListView <String> listview = new ListView<String>();
+        Button addButton = new Button("Add User");
+        Button viewButton = new Button("View All Users");
+        HBox buttons = new HBox(10, addButton, viewButton);
+        form.add(buttons, 0, 4, 2, 1);
 
-        // Creating the layout
-        // Gridpane is used to create a grid to place the elements in rows and cols
-        GridPane form =  new  GridPane();
-        // the horizontal space is 10 pixel
-        form.setHgap (10);
-        // the vertical spacing is 10 pixel
-        form.setVgap( 10);
-        // creating spaces around the layouts of the grid
-        form. setPadding(new  Insets(10));
+        listView = new ListView<String>();
+        listView.setPrefHeight(200);
 
-        // form.add adds the elements on to the grid
-        // row 0 is for the ID
-        form.add(new  Label("User ID:"),0,0);
-        form.add(idfield,1,0);
-        // roe 1 is for the name
-        form. add(new Label("Name:") ,0,1);
-        form.add(namefield,1 ,1);
-        // row 2 is for the email
-        form.add(new Label("Email:"),0,2);
-        form.add(emailfield, 1, 2);
-        // row 3 is for the roles
-        form.add(new  Label("Role:"),0,3);
-        form.add(typeBox,1,3);
+        statusLabel = new Label("Fill in details and click Add User.");
+        statusLabel.setStyle("-fx-text-fill: grey;");
 
-        // The Hbox adds the elements horizontally
-        HBox buttons  = new HBox(10, addbutton, viewbutton);
-        form.add(buttons,0,4,2 ,1);
+        view.getChildren().addAll(title, form, new Label("Registered Users:"), listView, statusLabel);
 
-        // The Vbox adds the elements vertically
-        VBox   root = new VBox(10, form, listview);
-        // setpadding is for the spaces near the edges
-        root.setPadding(new Insets(10)) ;
+        addButton.setOnAction(e -> handleAddUser());
+        viewButton.setOnAction(e -> handleViewUsers());
+    }
 
-        // the setonaction defines what will happen after the button is clicked
-        addbutton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e){
+    private void handleAddUser() {
+        String idText = idField.getText().trim();
+        String name = nameField.getText().trim();
+        String email = emailField.getText().trim();
+        String type = typeBox.getValue();
 
-                //Reads what the user had entered and the gettext reads from textfield and getvalue reads from
-                //combobox
-                String idText = idfield. getText();
-                String  name =  namefield.getText();
-                String email =  emailfield.getText();
-                String type = typeBox.getValue();
+        if (idText.isEmpty() || name.isEmpty() || email.isEmpty() || type == null) {
+            statusLabel.setText("Please fill in all fields.");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
 
-                // checks if the user have entered all the details and if its true then
-                // an error message is printed
-                if(idText.isEmpty() || name.isEmpty() ||  email.isEmpty() || type == null){
-                    showAlert ("Please fill in all  your details") ;
-                    return;
-                }
+        int id;
+        try {
+            id = Integer.parseInt(idText);
+        } catch (NumberFormatException ex) {
+            statusLabel.setText("User ID must be a number.");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
 
-                // Converts the text to numbers
-                int id   = Integer. parseInt(idText);
-
-                // checking if the given ID already exists and if it did then an error message is printed
-                for(int i =  0; i < users.size(); i++){
-                    if(users.get(i).getId() ==  id){
-                        showAlert("Please Enter a valid ID this already exists");
-                        return ;
-
-                    }
-                }
-
-                // creating a new user object based on the roles the user selects
-                User user;
-                //student
-                if(type.equals("Student")) {
-                    user =  new Student(id, name, email);
-                }
-                // staff
-                else if(type.equals("Staff")) {
-                    user = new Staff(id, name, email);
-                }
-                // guest
-                else {
-                    user = new Guest(id, name, email);
-                }
-
-                // adding the user to the user list and then displaying them
-                users.add(user);
-                listview. getItems().add(user.toString());
-
-                // cleans the input boxes so the user can enter multiple times
-                idfield.clear();
-                namefield. clear();
-                emailfield.clear();
-                typeBox.getSelectionModel().clearSelection();
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getuserID() == id) {
+                statusLabel.setText("User ID already exists.");
+                statusLabel.setStyle("-fx-text-fill: red;");
+                return;
             }
+        }
 
-        });
+        User user;
+        if (type.equals("Student")) {
+            user = new Student(name, email, id);
+        } else if (type.equals("Staff")) {
+            user = new Staff(name, email, id);
+        } else {
+            user = new Guest(name, email, id);
+        }
 
-        // the viewbutton defines what happnes when its clicked
-        viewbutton. setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e){
+        users.add(user);
+        listView.getItems().add(
+                "ID: " + user.getuserID() +
+                        " | Name: " + user.getname() +
+                        " | Email: " + user.getemail() +
+                        " | Role: " + user.getrole()
+        );
 
-                // clearing the list to ensure there in no duplicates
-                listview.getItems(). clear();
-
-                // using the for loop to add on all the user details
-                for(int i = 0; i < users.size(); i++){
-                    User u = users.get(i);
-
-                    listview.getItems().add(
-                            "ID: " + u.getId() +
-                            " Name: " +  u.getname() +
-                            " Email: " + u.getemail() +
-                            " Role: " + u.getrole()
-                    );
-                }
-
-
-            }
-        });
-
-        // the scene setup is the content on the window which id 500 x 400
-        Scene  scene = new Scene(root,500,400);
-
-        // adding the scene to the window
-        stage.setScene(scene);
-
-        //sets the window title
-        stage.setTitle("USER SIGN IN");
-
-        // shows the actual window
-        stage.show();
+        idField.clear();
+        nameField.clear();
+        emailField.clear();
+        typeBox.getSelectionModel().clearSelection();
+        statusLabel.setText("User added successfully.");
+        statusLabel.setStyle("-fx-text-fill: green;");
     }
 
-    // creating an alert message and the message will be displayed till the user closes it
-    private void showAlert(String message){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert . setHeaderText(null) ;
-        alert.setContentText(message);
-        alert.showAndWait();
-
+    private void handleViewUsers() {
+        listView.getItems().clear();
+        if (users.size() == 0) {
+            statusLabel.setText("No users registered yet.");
+            statusLabel.setStyle("-fx-text-fill: grey;");
+            return;
+        }
+        for (int i = 0; i < users.size(); i++) {
+            User u = users.get(i);
+            listView.getItems().add(
+                    "ID: " + u.getuserID() +
+                            " | Name: " + u.getname() +
+                            " | Email: " + u.getemail() +
+                            " | Role: " + u.getrole()
+            );
+        }
+        statusLabel.setText("Showing " + users.size() + " user(s).");
+        statusLabel.setStyle("-fx-text-fill: grey;");
     }
 
-    // starts the javafx program
-    public static void  main(String[] args){
-        launch() ;
-    }
-
+    public ArrayList<User> getUsers() { return users; }
+    public VBox getView() { return view; }
 }
