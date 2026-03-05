@@ -4,12 +4,14 @@ ENGG*1420- Object Oriented Programming, W26 Course Project
 
 A Java-based desktop application that can manage campus events, user registrations, bookings and waitlists!
 
-# Team Members and Responsibilities 
+# Team Members
 
-User Management- Navina  
-Waitlist Management- Mesk  
-Booking Management- Wania, Aliza  
-Event Management- Mathieu, Andrew  
+Navina  
+Mesk  
+Wania  
+Aliza  
+Mathieu  
+Andrew  
 
 # Requirements to Run:
 - JDK 21 or later (Project utilizes JDK 25)
@@ -20,8 +22,9 @@ Event Management- Mathieu, Andrew
 # i) IntelliJ IDEA
   1. Clone Repository
   2. Open IntelliJ IDEA
-  3. Click File/Open, and select the project folder
-  4. Open MainApp.java and click the Run button.
+  3. Click File|Open, and select the project folder
+  4. Wait for Maven to finish downloading dependencies     automatically. 
+  5. Open the Maven panel on the right-hand side, click plugins|javafx| double click javafx:run.
 
 # ii) Terminal
   1. Clone Repository:
@@ -29,7 +32,7 @@ Event Management- Mathieu, Andrew
        cd 1420-Course-Project-
   3. Run Application:
        mvn javafx:run
-
+     NOTE: To run the program through the terminal, you must have Maven installed. 
 # Phase 1 Features:
 User Management: Add and view Student, Staff and Guest Users  
 Event Management: Create, update, and cancel Workshop, Seminar, and Concert events.  
