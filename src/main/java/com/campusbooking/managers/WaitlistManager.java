@@ -1,3 +1,8 @@
+package com.campusbooking.managers;
+
+import com.campusbooking.controllers.*;
+import com.campusbooking.models.*;
+import com.campusbooking.views.*;
 import java.util.List;
 
 public class WaitlistManager {

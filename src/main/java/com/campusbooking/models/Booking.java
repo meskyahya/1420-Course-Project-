@@ -1,3 +1,5 @@
+package com.campusbooking.models;
+
 import java.time.LocalDateTime;
 
 /* Represents a reservation linking a User to an Event.
@@ -17,6 +19,14 @@ public class Booking {
         this.eventId   = eventId;
         this.createdAt = createdAt;
         this.status    = "Waitlisted";
+    }
+
+    public Booking(String bookingId, String userId, String eventId, LocalDateTime createdAt, String status) {
+        this.bookingId = bookingId;
+        this.userId = userId;
+        this.eventId = eventId;
+        this.createdAt = createdAt;
+        this.status = status;
     }
 
     public String        getBookingId() { return bookingId; }

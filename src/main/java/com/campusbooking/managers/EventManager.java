@@ -1,3 +1,7 @@
+package com.campusbooking.managers;
+
+import com.campusbooking.models.*;
+
 import java.util.Map;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -6,7 +10,15 @@ import java.util.HashMap;
 
 public class EventManager {
 
+    private Booking booking;
+
     private Map<String, Event> events = new HashMap<>();
+
+    public EventManager(List<Event> eventsList) {
+        for (Event e : eventsList) {
+            addEvent(e);
+        }
+    }
 
     public void addEvent(Event event) {
         if(events.containsKey(event.getEventId())) {
@@ -36,6 +48,14 @@ public class EventManager {
             throw new IllegalArgumentException("No Event found with id: " + id);
         }
         getEvent(id).cancelEvent();
+
+        for (Booking b : event.getConfirmedBookings()) {
+            booking.setStatus("Cancelled");
+        }
+
+        for (Booking b : event.getWaitlist()) {
+            booking.setStatus("Cancelled");
+        }
     }
     
     public void updateEventDate(String id, LocalDateTime newDateTime){

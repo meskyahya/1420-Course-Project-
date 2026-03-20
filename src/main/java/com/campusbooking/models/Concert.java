@@ -1,3 +1,5 @@
+package com.campusbooking.models;
+
 import java.time.LocalDateTime;
 
 public class Concert extends Event {

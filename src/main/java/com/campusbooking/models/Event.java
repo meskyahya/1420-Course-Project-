@@ -1,3 +1,5 @@
+package com.campusbooking.models;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -165,6 +167,7 @@ public void setStatus(EventStatus status) {
     public List<Booking> getConfirmedBookings() {
         return new ArrayList<>(confirmedBookings);
     }
+
 
     @Override
     public String toString() {

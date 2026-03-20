@@ -1,4 +1,11 @@
+package com.campusbooking.controllers;
+
+
+import com.campusbooking.managers.*;
+import com.campusbooking.models.*;
+import com.campusbooking.views.*;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,11 +15,18 @@ public class EventController {
 
     private EventManager eventManager;
     private EventView view;
+    private Runnable OnEventsChanged;
+    private ListView<String> eventList = new ListView<>();
 
     public EventController(EventManager eventManager) {
         this.eventManager = eventManager;
         this.view = new EventView();
         initialize();
+        view.refreshEventList(getAllEventsAsString());
+    }
+
+    public void setOnEventsChanged(Runnable callback){
+        this.OnEventsChanged = callback;
     }
 
     private void initialize() {
@@ -60,6 +74,8 @@ public class EventController {
             view.refreshEventList(getAllEventsAsString());
             view.clearFields();
 
+            if (OnEventsChanged != null) OnEventsChanged.run();
+
         } catch (NumberFormatException ex) {
             showError("Capacity must be a number.");
         } catch (Exception ex) {
@@ -76,6 +92,8 @@ public class EventController {
         String eventId = selected.split(" - ")[0];
         eventManager.cancelEvent(eventId);
         view.refreshEventList(getAllEventsAsString());
+        if (OnEventsChanged != null) OnEventsChanged.run();
+
     }
 
     private List<String> getAllEventsAsString() {
@@ -94,6 +112,11 @@ public class EventController {
         alert.setContentText(message);
         alert.show();
     }
+
+    public void refreshEventList() {
+        view.refreshEventList(getAllEventsAsString());
+    }
+
 
     public VBox getView() {
         return view;

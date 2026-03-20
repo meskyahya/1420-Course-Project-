@@ -1,5 +1,11 @@
+package com.campusbooking.views;
+
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 import java.util.List;
 
 public class EventView extends VBox {
@@ -15,7 +21,13 @@ public class EventView extends VBox {
     private ListView<String> eventList = new ListView<>();
 
     public EventView() {
-        setSpacing(10);
+        setSpacing(12);
+        setPadding(new Insets(20));
+
+        Label title = new Label("Event Management");
+        title.setFont(Font.font("System", FontWeight.BOLD, 20));
+        getChildren().add(title);
+
         typeBox.getItems().addAll("Workshop", "Seminar", "Concert");
         dateTimeField.setPromptText("e.g. 2026-04-01T10:00");
         typeBox.setOnAction(e -> {
@@ -69,4 +81,5 @@ public class EventView extends VBox {
         extraField.clear();
         typeBox.getSelectionModel().clearSelection();
     }
+
 }
