@@ -18,11 +18,11 @@ public class DataSaver {
             for (User u : users) {
 
                 pw.println(
-                        u.getname() + "," +
-                                u.getemail() + "," +
-                                u.getuserID() + "," +
-                                u.getrole()
-                );
+                u.getuserID() + "," +
+                u.getname() + "," +
+                u.getemail() + "," +
+                u.getrole()
+    );
             }
 
         } catch (IOException e) {
