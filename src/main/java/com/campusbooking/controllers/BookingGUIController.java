@@ -12,11 +12,11 @@ import java.util.List;
 
 public class BookingGUIController {
 
-    private BookingManager bookingManager;
-    private BookingView view;
-    private List<User> users;
-    private EventManager eventManager;
-    private Runnable onBookingChanged;
+    private BookingManager bookingManager; //handles booking actions like create or cancel
+    private BookingView view; //the BookingView object which is the GUI screen
+    private List<User> users; //the list of users avaliable for booking
+    private EventManager eventManager; //gives access to events and event data
+    private Runnable onBookingChanged; //a callback so other parts of the program can refresh after a booking changes
 
     public BookingGUIController(BookingManager bookingManager,
                                 BookingView view,
