@@ -37,6 +37,13 @@ Andrew
 User Management: Add and view Student, Staff and Guest Users  
 Event Management: Create, update, and cancel Workshop, Seminar, and Concert events.  
 Booking Management: Book events for users with confirmed/waitlisted status.  
-Waitlist Management: View and manage waitlists with automatic promotion when a confirmed booking is cancelled.  
+Waitlist Management: View and manage waitlists with automatic promotion when a confirmed booking is cancelled.
+# Phase 2 Features:
+File Persistence: System state is automatically saved to CSV on close and restored on startup.  
+Search & Filter: Search events by partial, case-insensitive title and filter by event type.  
+JUnit Tests: 4 automated tests covering core booking logic.  
+
+# How to Run Tests:
+  mvn test
 
    
