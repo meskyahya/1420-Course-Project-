@@ -1,14 +1,14 @@
-package com.campusbooking.controllers;
+package com.campusbooking.controllers; //defines the package this class belongs to 
 
-import com.campusbooking.managers.*;
-import com.campusbooking.models.*;
-import com.campusbooking.views.*;
-import com.campusbooking.views.BookingView;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
+import com.campusbooking.managers.*; //imports all manager classses (BookingManager, EventManager, ect)
+import com.campusbooking.models.*; // Imports all model classes (User, Event, Booking, etc.)
+import com.campusbooking.views.*; //Imports all view classes (GUI components)
+import com.campusbooking.views.BookingView; // Import for popup alerts
+import javafx.scene.control.Alert // Import for popup alerts
+import javafx.scene.control.ComboBox; // Import for dropdown menus
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList; //import for dynamic array list
+import java.util.List; //import for list interface
 
 //This class handles user actions like booking and cancelling events, and updates the UI accordingly.
 
@@ -25,10 +25,10 @@ public class BookingGUIController {
                                 List<User> users,
                                 EventManager eventManager) {
 
-        this.bookingManager = bookingManager;
-        this.view = view;
-        this.users = users;
-        this.eventManager = eventManager;
+        this.bookingManager = bookingManager; //assign booking manager
+        this.view = view; //assign view
+        this.users = users; //assign user list
+        this.eventManager = eventManager; //assign event manager
 
         initialize();
     }
@@ -49,26 +49,27 @@ public class BookingGUIController {
     private void loadUsers() { //loading user into the view
         List<String> userStrings = new ArrayList<>();
 
-        for (User u : users) {
-            userStrings.add(u.getuserID() + " - " + u.getName());
+        for (User u : users) { //loop through each user 
+            userStrings.add(u.getuserID() + " - " + u.getName()); //format and add to list
         }
         //sends the list to view
         view.setUsers(userStrings);
     }
     //method for events
     private void loadEvents() {
-        List<String> eventStrings = new ArrayList<>(); 
+        List<String> eventStrings = new ArrayList<>(); //create empty list
         //loops through all events from eventManager and creates a display text like eventID - title.
         for (Event e : eventManager.getAllEvents()) {
-            eventStrings.add(e.getEventId() + " - " + e.getTitle());
+            eventStrings.add(e.getEventId() + " - " + e.getTitle()); //format and add
         }
     //pass the list to the view
-        view.setEvents(eventStrings);
+        view.setEvents(eventStrings); //send to view
     }
     //This method runs when the user clicks Book. 
     private void handleBook() { //handles booking an event 
-        try {
-            //get selected values:
+        try {//try blcok to catch errors
+            
+            //get selected values for UI:
             String userIdStr = view.getSelectedUserId();
             String eventId = view.getSelectedEventId();
             
