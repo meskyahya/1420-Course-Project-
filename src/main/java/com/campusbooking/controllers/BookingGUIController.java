@@ -69,8 +69,7 @@ public class BookingGUIController {
                 return;
             }
 
-            int userId = Integer.parseInt(userIdStr);
-
+            String userId = userIdStr;
             User user = findUser(userId);
             Event event = findEvent(eventId);
 
@@ -110,8 +109,8 @@ public class BookingGUIController {
                 return;
             }
 
-            int userId = Integer.parseInt(userIdStr);
-
+            String userId = userIdStr;
+            
             // Extract bookingId from string format
             String bookingId = selected.split(" ")[2];
 
@@ -191,14 +190,14 @@ public class BookingGUIController {
 
 
 
-    private User findUser(int userId) {
-        for (User u : users) {
-            if (u.getuserID() == userId) {
-                return u;
-            }
+    private User findUser(String userId) {
+    for (User u : users) {
+        if (u.getuserID().equals(userId)) {
+            return u;
         }
-        return null;
     }
+    return null;
+}
 
     private Event findEvent(String eventId) {
         return eventManager.getEvent(eventId);
