@@ -13,8 +13,8 @@ public class DataSaver {
 
         try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
 
-            pw.println("name,email,userId,userType");
-
+            pw.println("userId,name,email,userType");
+            
             for (User u : users) {
 
                 pw.println(
