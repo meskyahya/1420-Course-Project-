@@ -28,7 +28,7 @@ public class BookingManager {
         if (!event.isActive()){
             throw new IllegalArgumentException("Cannot book a cancelled event. ");
         }
-        int userId = user.getuserID();
+        String userId = user.getuserID();
         String eventId = event.getEventId();
 
         if (hasActiveBooking(userId, eventId)){
@@ -102,13 +102,12 @@ public class BookingManager {
         }
         return null;
     }
-    private boolean hasActiveBooking(int userId, String eventId){
-        String uid = String.valueOf(userId);
+    private boolean hasActiveBooking(String userId, String eventId){
 
         for (int i  = 0; i < allBookings.size(); i++) {
             Booking b = allBookings.get(i);
 
-            boolean sameUser = b.getUserId().equals(uid);
+            boolean sameUser = b.getUserId().equals(userId);
             boolean sameEvent = b.getEventId().equals(eventId);
             boolean active = !b.isCancelled();
 
@@ -117,18 +116,17 @@ public class BookingManager {
         return false;
     }
 
-    private int countUserConfirmed(int userId){
-        String uid = String.valueOf(userId);
-        int count = 0;
+    private int countUserConfirmed(String userId){
+    int count = 0;
 
-        for (int i = 0; i < allBookings.size(); i++) {
-            Booking b = allBookings.get(i);
-            if (b.getUserId().equals(uid) && b.isConfirmed()){
-                count++;
-            }
+    for (int i = 0; i < allBookings.size(); i++) {
+        Booking b = allBookings.get(i);
+        if (b.getUserId().equals(userId) && b.isConfirmed()){
+            count++;
         }
-        return count;
     }
+    return count;
+}
 
     private int getConfirmedLimit(String role){
         if (role == null) return 1;
