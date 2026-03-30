@@ -1,6 +1,5 @@
 package com.campusbooking.controllers;
 
-
 import com.campusbooking.managers.*;
 import com.campusbooking.models.*;
 import com.campusbooking.views.*;
@@ -25,13 +24,15 @@ public class EventController {
         view.refreshEventList(getAllEventsAsString());
     }
 
-    public void setOnEventsChanged(Runnable callback){
+    public void setOnEventsChanged(Runnable callback) {
         this.OnEventsChanged = callback;
     }
 
     private void initialize() {
         view.getAddButton().setOnAction(e -> handleAddEvent());
         view.getCancelButton().setOnAction(e -> handleCancelEvent());
+        view.getSearchButton().setOnAction(e -> handleSearch());
+        view.getClearButton().setOnAction(e -> refreshEventList());
     }
 
     private void handleAddEvent() {
@@ -93,7 +94,41 @@ public class EventController {
         eventManager.cancelEvent(eventId);
         view.refreshEventList(getAllEventsAsString());
         if (OnEventsChanged != null) OnEventsChanged.run();
+    }
 
+    private void handleSearch() {
+        String searchText = view.getSearchText().toLowerCase();
+        String filterType = view.getFilterType();
+
+        List<Event> allEvents = eventManager.getAllEvents();
+        List<String> results = new ArrayList<>();
+
+        for (int i = 0; i < allEvents.size(); i++) {
+            Event e = allEvents.get(i);
+
+            boolean titleMatch = e.getTitle().toLowerCase().contains(searchText);
+
+            boolean typeMatch;
+            if (filterType.equals("All")) {
+                typeMatch = true;
+            } else if (filterType.equals("Workshop") && e instanceof Workshop) {
+                typeMatch = true;
+            } else if (filterType.equals("Seminar") && e instanceof Seminar) {
+                typeMatch = true;
+            } else if (filterType.equals("Concert") && e instanceof Concert) {
+                typeMatch = true;
+            } else {
+                typeMatch = false;
+            }
+
+            if (titleMatch && typeMatch) {
+                results.add(e.getEventId() + " - " + e.getTitle() +
+                            " (" + e.getConfirmedBookings().size() +
+                            "/" + e.getCapacity() + ") [" + e.getStatus() + "]");
+            }
+        }
+
+        view.refreshEventList(results);
     }
 
     private List<String> getAllEventsAsString() {
@@ -116,7 +151,6 @@ public class EventController {
     public void refreshEventList() {
         view.refreshEventList(getAllEventsAsString());
     }
-
 
     public VBox getView() {
         return view;
