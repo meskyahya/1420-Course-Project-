@@ -82,17 +82,10 @@ public class UserController {
             return;
         }
 
-        int id;
-        try {
-            id = Integer.parseInt(idText);
-        } catch (NumberFormatException ex) {
-            statusLabel.setText("User ID must be a number.");
-            statusLabel.setStyle("-fx-text-fill: red;");
-            return;
-        }
+        String id = idText;
 
         for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getuserID() == id) {
+            if (users.get(i).getuserID().equals(id)) {
                 statusLabel.setText("User ID already exists.");
                 statusLabel.setStyle("-fx-text-fill: red;");
                 return;
