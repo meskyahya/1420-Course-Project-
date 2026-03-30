@@ -127,7 +127,7 @@ public class BookingManager {
 
         String r = role.trim().toLowerCase();
         if (r.equals("student")) return 3;
-        if (r.equals("teacher")) return 5;
+        if (r.equals("staff")) return 5;
         return 1;
     }
 
