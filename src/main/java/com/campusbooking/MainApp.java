@@ -122,6 +122,5 @@ public class MainApp extends Application {
                 DataSaver.saveEvents(eventManager.getAllEvents(), "events.csv");
                 DataSaver.saveBookings(bookingManager.getAllBookings(), "bookings.csv");
             });
-        }
 
     }
