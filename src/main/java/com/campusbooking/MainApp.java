@@ -34,14 +34,15 @@ public class MainApp extends Application {
         List<Booking> bookings = bookingManager.getAllBookings();
 
         for (Booking b : bookings) {
-            try {
-                Event e = eventManager.getEvent(b.getEventId());
-                if (e != null && !b.isCancelled()) {
-                    e.addBooking(b); // this sets status AND adds to correct list
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+    try {
+        Event e = eventManager.getEvent(b.getEventId());
+        if (e != null && !b.isCancelled()) {
+            e.addBooking(b);
+        }
+    } catch (Exception e) {
+        System.out.println("Could not restore booking: " + b.getBookingId());
+    }
+}
 
             // User Management tab
             UserController userController = new UserController(users);
