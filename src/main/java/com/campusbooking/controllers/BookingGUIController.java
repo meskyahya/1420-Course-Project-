@@ -43,7 +43,7 @@ public class BookingGUIController {
         List<String> userStrings = new ArrayList<>();
 
         for (User u : users) {
-            userStrings.add(u.getuserID() + " - " + u.getname());
+            userStrings.add(u.getuserID() + " - " + u.getName());
         }
 
         view.setUsers(userStrings);
@@ -157,7 +157,7 @@ public class BookingGUIController {
         userCombo.getItems().clear(); // clear old items
 
         for (User u : users) {
-            String display = u.getuserID() + " - " + u.getname();
+            String display = u.getuserID() + " - " + u.getName();
             userCombo.getItems().add(display);
         }
 

@@ -62,7 +62,7 @@ public abstract class Event {
         return status;
     }
 
-public void setStatus(EventStatus status) {
+    public void setStatus(EventStatus status) {
     this.status = status;
 }
 
@@ -152,6 +152,7 @@ public void setStatus(EventStatus status) {
         }
     }
 
+
     private void promoteWaitlist() {
         if (!waitlist.isEmpty()) {
             Booking promoted = waitlist.poll();
@@ -161,11 +162,11 @@ public void setStatus(EventStatus status) {
     }
 
     public List<Booking> getWaitlist() {
-        return new ArrayList<>(waitlist);
+        return (List<Booking>) waitlist; // return real queue as list
     }
 
     public List<Booking> getConfirmedBookings() {
-        return new ArrayList<>(confirmedBookings);
+        return confirmedBookings; // return real list
     }
 
 

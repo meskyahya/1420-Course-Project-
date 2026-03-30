@@ -81,6 +81,15 @@ public class BookingManager {
 
         //refers to event logic for logic
         event.cancelBooking(booking);
+        booking.setStatus("Cancelled");
+
+        for (Booking eventBooking : event.getConfirmedBookings()) {
+            for (Booking b : allBookings) {
+                if (b.getBookingId().equals(eventBooking.getBookingId())) {
+                    b.setStatus(eventBooking.getStatus());
+                }
+            }
+        }
     }
     //return all bookings for user
     public List<Booking> getBookingsForUser(int userId){

@@ -9,6 +9,7 @@ import java.util.List;
 
 public class DataSaver {
 
+    // Save Users to CSV File
     public static void saveUsers(List<User> users, String filePath) {
 
         try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
@@ -19,8 +20,8 @@ public class DataSaver {
 
                 pw.println(
                 u.getuserID() + "," +
-                u.getname() + "," +
-                u.getemail() + "," +
+                u.getName() + "," +
+                u.getEmail() + "," +
                 u.getrole()
     );
             }
@@ -30,7 +31,7 @@ public class DataSaver {
         }
     }
 
-
+    // Save Events to Csv File
     public static void saveEvents(List<Event> events, String filePath) {
 
         try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
@@ -77,7 +78,7 @@ public class DataSaver {
         }
     }
 
-
+    // Save Bookings to CSV File
     public static void saveBookings(List<Booking> bookings, String filePath) {
 
         try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {

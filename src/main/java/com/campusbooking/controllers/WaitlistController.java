@@ -30,6 +30,12 @@ public class WaitlistController {
         buildUI();
     }
 
+    private Runnable onBookingChanged;
+
+    public void setOnBookingChanged(Runnable callback) { // ADD THIS METHOD
+        this.onBookingChanged = callback;
+    }
+
     //Set the list of events to display in the dropdown
     public void setEvents(List<Event> events) {
         this.events = events;
@@ -137,6 +143,7 @@ public class WaitlistController {
         event.cancelBooking(booking);
         statusLabel.setText("Waitlisted booking cancelled.");
         promotionLabel.setText("");
+        if (onBookingChanged != null) onBookingChanged.run();
         refreshLists();
     }
 
@@ -159,6 +166,7 @@ public class WaitlistController {
         }
 
         statusLabel.setText("Confirmed booking cancelled.");
+        if (onBookingChanged != null) onBookingChanged.run();
         refreshLists();
     }
 

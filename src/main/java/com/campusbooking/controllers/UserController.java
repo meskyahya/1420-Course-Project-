@@ -121,7 +121,7 @@ public class UserController {
             refreshUsers();
 
             // displays a message if no errors
-            view.getStatusLabel().setText(" THe User is added successfully!!");
+            view.getStatusLabel().setText("The User is added successfully!");
 
             // If a callback is set, run it (notify other parts of program)
             if (onUserChanged != null) onUserChanged.run();
@@ -147,7 +147,7 @@ public class UserController {
         for (User u : users) {
 
             // adding a text to the UI list
-            view.getListView().getItems().add( u.getuserID() + " - " + u.getname() + " (" + u.getrole() + ")");
+            view.getListView().getItems().add( u.getuserID() + " - " + u.getName() + " (" + u.getrole() + ")");
         }
     }
 

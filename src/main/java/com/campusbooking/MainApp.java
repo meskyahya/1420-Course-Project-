@@ -116,6 +116,12 @@ public class MainApp extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
+            waitlistController.setOnBookingChanged(() -> {
+                eventController.refreshEventList();
+                bookingController.refreshBookings();
+                bookingController.refreshEventDropdown();
+                });
+
             // Save Data on Close
             primaryStage.setOnCloseRequest(event -> {
                 DataSaver.saveUsers(users, "users.csv");

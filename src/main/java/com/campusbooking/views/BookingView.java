@@ -76,11 +76,13 @@ public class BookingView extends VBox {
         bookingsList.setItems(FXCollections.observableArrayList(bookings));
     }
 
+    // Update Status Label
     public void updateStatus(String message, String style) {
         statusLabel.setText(message);
         statusLabel.setStyle(style);
     }
 
+    // Get the Selected User ID from dropdown
     public String getSelectedUserId() {
         String selected = userCombo.getSelectionModel().getSelectedItem();
         if (selected == null) return null;
@@ -91,6 +93,7 @@ public class BookingView extends VBox {
         return null;
     }
 
+    // Get Selected Event ID from dropdown
     public String getSelectedEventId() {
         String selected = eventCombo.getSelectionModel().getSelectedItem();
         if (selected == null) return null;

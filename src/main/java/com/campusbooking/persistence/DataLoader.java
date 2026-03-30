@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
 public class DataLoader {
-
+    // Load Users
     public static List<User> loadUsers(String fileName) {
         List<User> users = new ArrayList<>();
 
@@ -56,7 +56,7 @@ public class DataLoader {
         return users;
     }
 
-
+    // Load Events
     public static List<Event> loadEvents(String fileName) {
         List<Event> events = new ArrayList<>();
 
@@ -98,7 +98,7 @@ public class DataLoader {
         return events;
     }
 
-
+    // Load Bookings
     public static List<Booking> loadBookings(String fileName) {
         List<Booking> bookings = new ArrayList<>();
 

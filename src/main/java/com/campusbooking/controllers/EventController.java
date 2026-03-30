@@ -23,18 +23,19 @@ public class EventController {
         initialize();
         view.refreshEventList(getAllEventsAsString());
     }
-
+    // Update Events On change
     public void setOnEventsChanged(Runnable callback) {
         this.OnEventsChanged = callback;
     }
 
+    // Start Up
     private void initialize() {
         view.getAddButton().setOnAction(e -> handleAddEvent());
         view.getCancelButton().setOnAction(e -> handleCancelEvent());
         view.getSearchButton().setOnAction(e -> handleSearch());
         view.getClearButton().setOnAction(e -> refreshEventList());
     }
-
+    // Handle Add Events and Errors
     private void handleAddEvent() {
         try {
             String id = view.getEventId();
@@ -84,6 +85,7 @@ public class EventController {
         }
     }
 
+    // Handle Cancel Event
     private void handleCancelEvent() {
         String selected = view.getSelectedEventString();
         if (selected == null) {
@@ -95,7 +97,7 @@ public class EventController {
         view.refreshEventList(getAllEventsAsString());
         if (OnEventsChanged != null) OnEventsChanged.run();
     }
-
+    // Handle Search
     private void handleSearch() {
         String searchText = view.getSearchText().toLowerCase();
         String filterType = view.getFilterType();
@@ -131,6 +133,7 @@ public class EventController {
         view.refreshEventList(results);
     }
 
+    // Turns Events to Strings
     private List<String> getAllEventsAsString() {
         List<Event> events = eventManager.getAllEvents();
         List<String> result = new ArrayList<>();
