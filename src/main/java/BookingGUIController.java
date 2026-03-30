@@ -62,8 +62,8 @@ public class BookingGUIController {
                 return;
             }
 
-            int userId = Integer.parseInt(userIdStr);
-
+            String userId = userIdStr;
+            
             User user = findUser(userId);
             Event event = findEvent(eventId);
 
@@ -110,7 +110,7 @@ public class BookingGUIController {
         }
     }
 
-    private void refreshBookings(int userId) {
+    private void refreshBookings(String userId) {
 
         List<Booking> bookings =
                 bookingManager.getBookingsForUser(userId);
@@ -126,9 +126,9 @@ public class BookingGUIController {
         view.updateBookingsList(bookingStrings);
     }
 
-    private User findUser(int userId) {
+    private User findUser(String userId) {
         for (User u : users) {
-            if (u.getuserID() == userId) {
+            if (u.getuserID().equals(userId)) {
                 return u;
             }
         }
