@@ -57,9 +57,9 @@ public class BookingManager {
         event.cancelBooking(booking);
     }
 
-    public List<Booking> getBookingsForUser(int userId){
+    public List<Booking> getBookingsForUser(String userId){
         ArrayList<Booking> bookings = new ArrayList<>();
-        String uid = String.valueOf(userId);
+        String uid = userId;
 
         for (int i = 0; i < allBookings.size(); i++) {
             Booking b = allBookings.get(i);
@@ -94,8 +94,8 @@ public class BookingManager {
         }
         return null;
     }
-    private boolean hasActiveBooking(int userId, String eventId){
-        String uid = String.valueOf(userId);
+    private boolean hasActiveBooking(String userId, String eventId){
+        String uid = userId;
 
         for (int i  = 0; i < allBookings.size(); i++) {
             Booking b = allBookings.get(i);
@@ -109,8 +109,8 @@ public class BookingManager {
         return false;
     }
 
-    private int countUserConfirmed(int userId){
-        String uid = String.valueOf(userId);
+    private int countUserConfirmed(String userId){
+        String uid = userId;
         int count = 0;
 
         for (int i = 0; i < allBookings.size(); i++) {
