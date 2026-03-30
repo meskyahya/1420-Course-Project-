@@ -11,15 +11,12 @@ public class UserController {
 
     private List<User> users;
     private UserView view;
-    private Runnable onUserChanged; //update user list
+    private Runnable onUserChanged;
 
     public UserController(List<User> users) {
-
         this.users = users;
         this.view = new UserView();
-
         refreshUsers();
-
         view.getAddButton().setOnAction(e -> addUser());
         view.getViewButton().setOnAction(e -> refreshUsers());
     }
@@ -29,17 +26,26 @@ public class UserController {
     }
 
     private void addUser() {
-
         try {
-
-            int id = Integer.parseInt(view.getIdField().getText());
-
+            String id = view.getIdField().getText().trim();
             String name = view.getNameField().getText();
             String email = view.getEmailField().getText();
             String role = view.getTypeBox().getValue();
 
-            User user;
+            if (id.isEmpty() || name.isEmpty() || email.isEmpty() || role == null) {
+                view.getStatusLabel().setText("Please fill in all fields.");
+                return;
+            }
 
+            // Check for duplicate user ID
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getuserID().equals(id)) {
+                    view.getStatusLabel().setText("User ID already exists.");
+                    return;
+                }
+            }
+
+            User user;
             switch (role) {
                 case "Student":
                     user = new Student(name, email, id);
@@ -52,28 +58,23 @@ public class UserController {
             }
 
             users.add(user);
-
             refreshUsers();
-
             view.getStatusLabel().setText("User added successfully.");
 
-            if (onUserChanged != null) onUserChanged.run(); //update user list
+            if (onUserChanged != null) onUserChanged.run();
 
             view.clearFields();
 
         } catch (Exception ex) {
-
             view.getStatusLabel().setText("Invalid user data.");
         }
     }
 
     private void refreshUsers() {
-
         view.getListView().getItems().clear();
-
         for (User u : users) {
             view.getListView().getItems().add(
-                    u.getuserID() + " - " + u.getname() + " (" + u.getrole() + ")"
+                u.getuserID() + " - " + u.getname() + " (" + u.getrole() + ")"
             );
         }
     }
@@ -86,4 +87,3 @@ public class UserController {
         return users;
     }
 }
-
