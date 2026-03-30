@@ -27,17 +27,9 @@ public class DataLoader {
                     continue;
                 }
 
-                String name = p[0].trim();
-                String email = p[1].trim();
-
-                int userId;
-                try {
-                    userId = Integer.parseInt(p[2].trim());
-                } catch (NumberFormatException nfe) {
-                    System.out.println("Skipping invalid userId: " + p[2]);
-                    continue;
-                }
-
+                String userId = p[0].trim();
+                String name = p[1].trim();
+                String email = p[2].trim();
                 String type = p[3].trim();
 
                 switch (type) {
