@@ -65,15 +65,18 @@ public class BookingGUIController {
     //This method runs when the user clicks Book. 
     private void handleBook() {
         try {
+            //get selected values:
             String userIdStr = view.getSelectedUserId();
             String eventId = view.getSelectedEventId();
-
+            
+            //validation
             if (userIdStr == null || eventId == null) {
                 showError("Select user and event.");
                 return;
             }
 
             String userId = userIdStr;
+            //finding objects:
             User user = findUser(userId);
             Event event = findEvent(eventId);
 
@@ -81,14 +84,18 @@ public class BookingGUIController {
                 showError("No Booking or User Found");
                 return;
             }
-
+            
+            //create booking*
             Booking booking = bookingManager.bookEvent(user, event);
+
+            //Update UI:
 
             view.updateStatus("Booking created: " + booking.getBookingId(),
                     "-fx-text-fill: green;");
-
             refreshBookings();
             refreshEventDropdown();
+            
+            //notify other parts
             if (onBookingChanged != null) onBookingChanged.run(); // update event list in event tab
 
 
@@ -96,18 +103,22 @@ public class BookingGUIController {
             showError(ex.getMessage());
         }
     }
-
+    
+    //runs when user clicks cancel
     private void handleCancel() {
         try {
             System.out.println("Raw combo value: " + view.getUserCombo().getSelectionModel().getSelectedItem());
             System.out.println("Selected booking: " + view.getBookingsList().getSelectionModel().getSelectedItem());
             System.out.println("userIdStr: " + view.getSelectedUserId());
             System.out.println("selected: " + view.getBookingsList().getSelectionModel().getSelectedItem());
+            //Get selected User
             String userIdStr = view.getSelectedUserId();
+
+            //Get selected booking:
             String selected = view.getBookingsList()
                     .getSelectionModel()
                     .getSelectedItem();
-
+            //Check if selected user and booking exist. print error
             if (userIdStr == null || selected == null) {
                 showError("Select user and booking to cancel.");
                 return;
@@ -206,7 +217,7 @@ public class BookingGUIController {
     private Event findEvent(String eventId) {
         return eventManager.getEvent(eventId);
     }
-
+    //Searches confirmed booking and waitlist.  
     private Event findEventFromBooking(String bookingId) {
         for (Event e : eventManager.getAllEvents()) {
             for (Booking b : e.getConfirmedBookings()) {
@@ -220,9 +231,9 @@ public class BookingGUIController {
                 }
             }
         }
-        return null;
+        return null; 
     }
-
+    //Shows popup error using JavaFX Alert --> Error handling
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(message);
