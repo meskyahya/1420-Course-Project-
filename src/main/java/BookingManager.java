@@ -64,7 +64,7 @@ public class BookingManager {
         for (int i = 0; i < allBookings.size(); i++) {
             Booking b = allBookings.get(i);
 
-            if (b.getBookingId().equals(uid)){
+            if (b.getUserId().equals(uid))
                 bookings.add(b);
             }
         }
