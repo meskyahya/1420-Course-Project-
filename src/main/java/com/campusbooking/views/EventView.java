@@ -19,6 +19,11 @@ public class EventView extends VBox {
     private Button addButton = new Button("Add Event");
     private Button cancelButton = new Button("Cancel Selected Event");
     private ListView<String> eventList = new ListView<>();
+    // Search and filter
+    private TextField searchField = new TextField();
+    private ComboBox<String> filterBox = new ComboBox<>();
+    private Button searchButton = new Button("Search");
+    private Button clearButton = new Button("Clear");
 
     public EventView() {
         setSpacing(12);
@@ -39,19 +44,26 @@ public class EventView extends VBox {
                 case "Concert" -> extraField.setPromptText("Age Restriction");
             }
         });
-        getChildren().addAll(
-            new Label("Event ID"), idField,
-            new Label("Title"), titleField,
-            new Label("Capacity"), capacityField,
-            new Label("Location"), locationField,
-            new Label("Date/Time"), dateTimeField,
-            new Label("Event Type"), typeBox,
-            new Label("Extra Field"), extraField,
-            addButton,
-            cancelButton,
-            new Label("Events"),
-            eventList
-        );
+        filterBox.getItems().addAll("All", "Workshop", "Seminar", "Concert");
+filterBox.setValue("All");
+searchField.setPromptText("Search by title...");
+
+HBox searchRow = new HBox(10, searchField, filterBox, searchButton, clearButton);
+
+getChildren().addAll(
+    new Label("Event ID"), idField,
+    new Label("Title"), titleField,
+    new Label("Capacity"), capacityField,
+    new Label("Location"), locationField,
+    new Label("Date/Time"), dateTimeField,
+    new Label("Event Type"), typeBox,
+    new Label("Extra Field"), extraField,
+    addButton,
+    cancelButton,
+    new Label("Search & Filter"), searchRow,
+    new Label("Events"),
+    eventList
+);
     }
 
     public String getEventId()     { return idField.getText(); }
@@ -67,6 +79,10 @@ public class EventView extends VBox {
     public String getSelectedEventString() {
         return eventList.getSelectionModel().getSelectedItem();
     }
+    public String getSearchText() { return searchField.getText().trim(); }
+    public String getFilterType() { return filterBox.getValue(); }
+    public Button getSearchButton() { return searchButton; }
+    public Button getClearButton() { return clearButton; }
 
     public void refreshEventList(List<String> events) {
         eventList.getItems().setAll(events);
