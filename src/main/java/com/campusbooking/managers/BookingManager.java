@@ -42,11 +42,11 @@ public class BookingManager {
         }
         String bookingId = nextBookingId();
         Booking booking = new Booking(
-                bookingId,
-                String.valueOf(userId),
-                eventId,
-                LocalDateTime.now()
-        );
+        bookingId,
+        userId,
+        eventId,
+        LocalDateTime.now()
+);
 
         event.addBooking(booking);
 
