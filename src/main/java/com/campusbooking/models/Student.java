@@ -2,8 +2,8 @@ package com.campusbooking.models;
 
 public class Student extends User {
 
-    public Student(String name, String email, int userId){
-        super(name, email, userId, "Student");
+    public Student(String name, String email, String userId) {
+    super(name, email, userId, "Student");
     }
 }
 
