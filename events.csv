@@ -1,0 +1,3 @@
+eventId,title,dateTime,location,capacity,status,eventType,topic,speakerName,ageRestriction
+E001,Stats,2026-01-01T10:00,Roz,40,ACTIVE,Workshop,Math,,
+E002,stats,2026-01-01T10:00,roz,1,ACTIVE,Seminar,,melania,

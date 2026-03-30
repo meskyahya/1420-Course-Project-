@@ -1,16 +1,24 @@
+package com.campusbooking.managers;
+
+import com.campusbooking.controllers.*;
+import com.campusbooking.models.*;
+import com.campusbooking.views.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class BookingManager {
 
     private ArrayList<Booking> allBookings;
     private int bookingCounter;
 
-    public BookingManager() {
-        this.allBookings = new ArrayList<>();
-        this.bookingCounter = 1;
+    public BookingManager(List<Booking> bookingList) {
+        if (bookingList != null) {
+            this.allBookings = new ArrayList<>(bookingList);
+        } else {
+            this.allBookings = new ArrayList<>();
+        }
+        this.bookingCounter = allBookings.size() + 1;
     }
 
     public Booking bookEvent(User user, Event event){
@@ -64,7 +72,7 @@ public class BookingManager {
         for (int i = 0; i < allBookings.size(); i++) {
             Booking b = allBookings.get(i);
 
-            if (b.getBookingId().equals(uid)){
+            if (b.getUserId().equals(uid)){ //change getBookingId to getUserId
                 bookings.add(b);
             }
         }
@@ -127,7 +135,8 @@ public class BookingManager {
 
         String r = role.trim().toLowerCase();
         if (r.equals("student")) return 3;
-        if (r.equals("teacher")) return 5;
+        if (r.equals("staff")) return 5; //change to staff
+        if (r.equals("guest")) return 1; //add quest
         return 1;
     }
 

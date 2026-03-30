@@ -1,3 +1,8 @@
+package com.campusbooking.controllers;
+
+import com.campusbooking.managers.*;
+import com.campusbooking.models.*;
+import com.campusbooking.views.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;

@@ -1,3 +1,5 @@
+package com.campusbooking.views;
+
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -5,7 +7,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BookingView extends VBox {
@@ -81,15 +82,23 @@ public class BookingView extends VBox {
     }
 
     public String getSelectedUserId() {
-        String selected = userCombo.getValue();
+        String selected = userCombo.getSelectionModel().getSelectedItem();
         if (selected == null) return null;
-        return selected.split(" - ")[0]; // "U001 - Alice"
+        String[] parts = selected.split(" - ");
+        if (parts.length >= 2) {  // change > 0 to >= 2
+            return parts[0];
+        }
+        return null;
     }
 
     public String getSelectedEventId() {
-        String selected = eventCombo.getValue();
+        String selected = eventCombo.getSelectionModel().getSelectedItem();
         if (selected == null) return null;
-        return selected.split(" - ")[0]; // "E101 - Intro to Git"
+        String[] parts = selected.split(" - ");
+        if(parts.length > 0){
+            return parts[0];
+        }
+        return null;
     }
 
     public void setUsers(List<String> userStrings) {
