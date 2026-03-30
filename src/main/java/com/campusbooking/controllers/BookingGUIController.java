@@ -10,6 +10,8 @@ import javafx.scene.control.ComboBox;
 import java.util.ArrayList;
 import java.util.List;
 
+//This class handles user actions like booking and cancelling events, and updates the UI accordingly.
+
 public class BookingGUIController {
 
     private BookingManager bookingManager; //handles booking actions like create or cancel
@@ -17,7 +19,7 @@ public class BookingGUIController {
     private List<User> users; //the list of users avaliable for booking
     private EventManager eventManager; //gives access to events and event data
     private Runnable onBookingChanged; //a callback so other parts of the program can refresh after a booking changes
-
+    
     public BookingGUIController(BookingManager bookingManager,
                                 BookingView view,
                                 List<User> users,
@@ -31,34 +33,36 @@ public class BookingGUIController {
         initialize();
     }
 
-    private void initialize() {
+    private void initialize() { 
+        //button actions 
         view.getBookButton().setOnAction(e -> handleBook());
         view.getCancelButton().setOnAction(e -> handleCancel());
+        //Load UI data
         refreshUserDropdown(users);
         refreshEventDropdown();
         refreshBookings();
     }
-
+    //method that creates a list of display strings like userID - name. 
     private void loadUsers() {
         List<String> userStrings = new ArrayList<>();
 
         for (User u : users) {
             userStrings.add(u.getuserID() + " - " + u.getName());
         }
-
+        //sends the list to view
         view.setUsers(userStrings);
     }
-
+    //method for events
     private void loadEvents() {
-        List<String> eventStrings = new ArrayList<>();
-
+        List<String> eventStrings = new ArrayList<>(); 
+        //loops through all events from eventManager and creates a display text like eventID - title.
         for (Event e : eventManager.getAllEvents()) {
             eventStrings.add(e.getEventId() + " - " + e.getTitle());
         }
-
+    //pass the list to the view
         view.setEvents(eventStrings);
     }
-
+    //This method runs when the user clicks Book. 
     private void handleBook() {
         try {
             String userIdStr = view.getSelectedUserId();
