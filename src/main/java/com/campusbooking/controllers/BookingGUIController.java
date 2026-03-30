@@ -1,3 +1,28 @@
+/**
+ * BookingGUIController
+ *
+ * This class acts as the controller for the booking interface in the application.
+ * It connects the user interface (BookingView) with the backend logic handled by
+ * the BookingManager and EventManager.
+ *
+ * Responsibilities:
+ * - Handles user interactions such as booking and cancelling events
+ * - Retrieves selected data from the GUI (users, events, bookings)
+ * - Uses manager classes to perform operations like creating or cancelling bookings
+ * - Updates the UI components (dropdowns, lists, status messages) after each action
+ * - Ensures the interface stays synchronized with the underlying data
+ *
+ * Key Features:
+ * - Validates user input before performing actions
+ * - Displays error messages using alerts when needed
+ * - Dynamically refreshes bookings and event capacity after changes
+ * - Uses a callback (onBookingChanged) to notify other parts of the application
+ *
+ * Overall, this class serves as the middle layer between the GUI and the application
+ * logic, following a structure similar to the MVC (Model-View-Controller) design pattern.
+ */
+
+
 package com.campusbooking.controllers; //defines the package this class belongs to 
 
 import com.campusbooking.managers.*; //imports all manager classses (BookingManager, EventManager, ect)
